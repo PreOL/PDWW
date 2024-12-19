@@ -4,6 +4,29 @@ const output = document.getElementById('output');
 let _sessionToken = null;
 let socket = null;
 
+//PHOTOS
+
+const images = document.querySelectorAll('.image-container img');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let currentIndex = 0;
+
+        function updateImages() {
+            images.forEach((img, index) => {
+                img.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImages();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImages();
+        });
+
 //CONSOLE
 
 function printLine(text, color = 'default') {
