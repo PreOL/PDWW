@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.AI;
 
 public class SneakyStalker : MonoBehaviour
 {
-    public float viewAngle = 90f;            // K¹t widzenia gracza
-    public float detectionRange = 10f;       // Maksymalna odleg³oœæ wykrycia gracza
-    public float moveSpeed = 3.5f;           // Prêdkoœæ poruszania siê przeciwnika
-    public float attackRange = 2f;           // Zasiêg ataku
-    public float attackCooldown = 2f;       // Czas miêdzy atakami
+    public float viewAngle = 90f;            // KÄ…t widzenia gracza
+    public float detectionRange = 10f;       // Maksymalna odlegÅ‚oÅ›Ä‡ wykrycia gracza
+    public float moveSpeed = 3.5f;           // PrÄ™dkoÅ›Ä‡ poruszania siÄ™ przeciwnika
+    public float attackRange = 2f;           // ZasiÄ™g ataku
+    public float attackCooldown = 2f;       // Czas miÄ™dzy atakami
 
     private Transform player;                // Transform gracza
     private Transform playerCamera;          // Transform kamery gracza
@@ -67,20 +67,28 @@ public class SneakyStalker : MonoBehaviour
 
     private void AttackPlayer()
     {
-        agent.ResetPath();
-        animator.SetBool("IsAttacking", true); // Uruchom animacjê ataku
-        Invoke("EndAttack", 0.5f); // Zakoñcz animacjê ataku po 0.5 sekundy (czas trwania ataku)
+        agent.ResetPath(); // Przeciwnik przestaje siÄ™ poruszaÄ‡, aby zaatakowaÄ‡
+        animator.SetBool("IsAttacking", true); // Uruchom animacjÄ™ ataku
+        Invoke("EndAttack", 0.5f); // ZakoÅ„cz animacjÄ™ ataku po 0.5 sekundy (czas trwania ataku)
 
+        // Zadaj obraÅ¼enia graczowi
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(1); // Zadaj 1 punkt obra¿eñ graczowi
+            playerHealth.TakeDamage(1); // Zadaj 1 punkt obraÅ¼eÅ„ graczowi
+        }
+
+        // ðŸš€ **Dodajemy trzÄ™sienie kamery po ataku**
+        CustomCameraShake cameraShake = playerCamera.GetComponentInParent<CustomCameraShake>(); // ZnajdÅº skrypt CustomCameraShake na "Camera Holder"
+        if (cameraShake != null)
+        {
+            StartCoroutine(cameraShake.ShakeCamera(0.3f, 0.1f)); // TrzÄ™sienie kamery (czas trwania: 0.3 sekundy, intensywnoÅ›Ä‡: 0.1)
         }
     }
 
     private void EndAttack()
     {
-        animator.SetBool("IsAttacking", false); // Zakoñcz animacjê ataku
+        animator.SetBool("IsAttacking", false); // ZakoÅ„cz animacjÄ™ ataku
     }
 
     private void OnDrawGizmosSelected()
