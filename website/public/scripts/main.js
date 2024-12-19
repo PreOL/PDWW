@@ -6,27 +6,6 @@ let socket = null;
 
 //PHOTOS
 
-const images = document.querySelectorAll('.image-container img');
-        const prevButton = document.getElementById('prev');
-        const nextButton = document.getElementById('next');
-        let currentIndex = 0;
-
-        function updateImages() {
-            images.forEach((img, index) => {
-                img.classList.toggle('active', index === currentIndex);
-            });
-        }
-
-        prevButton.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateImages();
-        });
-
-        nextButton.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateImages();
-        });
-
 //CONSOLE
 
 function printLine(text, color = 'default') {
@@ -69,6 +48,9 @@ function processCommand(command) {
       break;
     case '!range':
       handleRange(args);
+      break;
+    case '!cam':
+      handleCam(args);
       break;
     case '!help':
       handleHelp();
@@ -125,6 +107,40 @@ function handleRange(args) {
   WS_tryRangeElementState(uid, value);
 }
 
+function handleCam(args) {
+  // PROTECTED
+  if (!_sessionToken) {
+    printLine('User not logged in', 'red');
+    return;
+  }
+
+  if (args.length !== 2 || !['1', '2', '3'].includes(args[1])) {
+    printLine('Usage: !cam [1-3]', 'red');
+    return;
+  }
+
+  const level = parseInt(args[1], 10);
+
+  // Image selection logic
+  const images = document.querySelectorAll('.image-container img');
+  if (!images || images.length < 3) {
+    printLine('Image elements are missing or insufficient', 'red');
+    return;
+  }
+
+  // Deactivate all images
+  images.forEach((img) => img.classList.remove('active'));
+
+  // Activate the image corresponding to the level
+  const selectedImage = images[level - 1];
+  if (selectedImage) {
+    selectedImage.classList.add('active');
+    printLine(`Camera set to level ${level}`, 'green');
+  } else {
+    printLine('Error activating the selected camera level', 'red');
+  }
+}
+
 function handleClear() {
   output.innerHTML = '';
 }
@@ -133,6 +149,7 @@ function handleHelp() {
   printLine('!login [username]');
   printLine('!toggle [UID]');
   printLine('!range [UID] [value]');
+  printLine('!cam [1-3]');
   printLine('!clear');
   printLine('!help');
 }
