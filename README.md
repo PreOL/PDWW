@@ -1,4 +1,4 @@
-# README - Projekt Gry Współpracy
+# README - Projekt Gry Reality Tumor
 ## 1. Opis Projektu
 ### Od strony biznesowej
 Nasz projekt to gra współpracy dla dwóch graczy, łącząca elementy eksploracji, rozwiązywania zagadek i komunikacji.
