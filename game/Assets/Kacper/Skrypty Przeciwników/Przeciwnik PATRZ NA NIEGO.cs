@@ -75,7 +75,7 @@ public class SneakyStalker : MonoBehaviour
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(1); // Zadaj 1 punkt obrażeń graczowi
+            playerHealth.TakeDamage(2); // Zadaj 1 punkt obrażeń graczowi
         }
 
         // 🚀 **Dodajemy trzęsienie kamery po ataku**
