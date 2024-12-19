@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int health = 10;  // Pocz¹tkowa iloœæ punktów ¿ycia
+    [SerializeField] int health = 10;  // Pocz¹tkowa iloœæ punktów ¿ycia
 
     // Metoda do otrzymywania obra¿eñ
     public void TakeDamage(int damage)
